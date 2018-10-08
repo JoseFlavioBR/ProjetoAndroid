@@ -1,20 +1,21 @@
 package com.example.jose.vempravan
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import com.example.jose.vempravan.R
-import com.google.firebase.FirebaseApp
+import android.widget.Toast
+import com.example.jose.vempravan.DAO.UserDao
+import com.google.firebase.database.FirebaseDatabase
 
 class UserCadastro : AppCompatActivity() {
 
     lateinit var cpEmailUser : EditText
     lateinit var cpPassworUser : EditText
     lateinit var cpPassworUser2 : EditText
-    lateinit var cpPlacaVan : EditText
+    var cpPlacaVan : EditText? = null
     lateinit var btCadastrarUser : Button
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,18 +33,35 @@ class UserCadastro : AppCompatActivity() {
 
     }
 
-
     private fun salvarUser(){
-        val nomeUser = cpEmailUser.toString().trim()
-        val passwordUser = cpPassworUser.toString().trim()
-        val passwordUser2 = cpPassworUser2.toString().trim()
-        val placaVan = cpPlacaVan.toString().trim()
+        val nomeUser = cpEmailUser.text.toString().trim()
+        val passwordUser = cpPassworUser.text.toString().trim()
+        val passwordUser2 = cpPassworUser2.text.toString().trim()
+        val placaVan = cpPlacaVan?.text.toString().trim()
 
-        if(nomeUser.isEmpty() && passwordUser.isEmpty() && passwordUser2.isEmpty()){
-            cpEmailUser.error = "Algum dos 3 campos pode estar vazio nome de usuario, password, ou password2"
+        val ref = FirebaseDatabase.getInstance().getReference("Usuario")
+        val usuarioId = ref.push().key
+
+        val usuario =  UserDao(usuarioId.toString(), nomeUser, passwordUser, passwordUser2, placaVan)
+
+        if (usuarioId != null) {
+
+            if(nomeUser.isEmpty() || passwordUser.isEmpty() || passwordUser2.isEmpty()){
+
+                cpEmailUser.error = "O campo do email está vazio ou escrito errado"
+                cpPassworUser.error ="O campo de senha está vazio"
+
+            }else{
+
+                ref.child(usuarioId).setValue(usuario).addOnCanceledListener{}
+                Toast.makeText(applicationContext, "Usuario salvo com sucesso", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, UserLogin::class.java)
+                startActivity(intent)
+
+            }
+
+
         }
-
-        val referenciafirebase = Fire
 
     }
 
