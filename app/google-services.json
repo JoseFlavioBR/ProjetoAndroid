@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "606410560383",
+    "firebase_url": "https://projetovempravan.firebaseio.com",
+    "project_id": "projetovempravan",
+    "storage_bucket": "projetovempravan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606410560383:android:b606be3286ba9dea",
+        "android_client_info": {
+          "package_name": "com.example.jose.vempravan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606410560383-qrmbr5ljgpcegm0vt6irongvv88ufkj1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jose.vempravan",
+            "certificate_hash": "62828a9bb203cfd9941bd00c487287fd0f0e1c71"
+          }
+        },
+        {
+          "client_id": "606410560383-hn0tp4vu4e04tepvoeasuuskgc6mirmp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUAyVtdaj3VStMrAZnT5xSUlyEGdyC4K8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606410560383-hn0tp4vu4e04tepvoeasuuskgc6mirmp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
