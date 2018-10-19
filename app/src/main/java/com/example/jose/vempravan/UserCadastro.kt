@@ -53,7 +53,7 @@ class UserCadastro : AppCompatActivity() {
 
     }
 
-    //METODO PARA CRIAR UMA NOVA CONTA
+    //METODO PARA CRIAR UMA NOVA
     private fun criarNovaConta() {
         //PEGANDO VALORES DE UMA VARIAVEL E TRANSOFRMANDO EM UMA STRING
         val cpEmail: String = cpEmailUser.text.toString()

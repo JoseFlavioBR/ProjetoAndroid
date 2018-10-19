@@ -20,6 +20,12 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, UserCadastro::class.java)
             startActivity(intent)
         }
+
+        btNavRecuperar.setOnClickListener(){
+            val intent = Intent(this, RecuperaSenha::class.java)
+            startActivity(intent)
+        }
+
     }
 
 }
