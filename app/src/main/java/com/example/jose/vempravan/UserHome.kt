@@ -2,6 +2,7 @@ package com.example.jose.vempravan
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -69,11 +70,25 @@ class UserHome : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLis
     fun sairUsuario(){
 
         FirebaseAuth.getInstance().signOut()
-        finishAffinity();
+
+        PreferenceManager.getDefaultSharedPreferences(applicationContext).edit().clear().apply()
+
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
 
+        finishAffinity();
 
+
+
+    }
+
+    override fun onStop() {
+        val ref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        if(!ref.getBoolean("manterConectado", false)){
+            FirebaseAuth.getInstance().signOut()
+            PreferenceManager.getDefaultSharedPreferences(applicationContext).edit().clear().apply()
+        }
+        super.onStop()
     }
 
 }

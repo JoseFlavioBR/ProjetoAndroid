@@ -13,10 +13,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_user_cadastro.*
 
 class UserCadastro : AppCompatActivity() {
 
-    //VARIAVIS PARA GUARDAR OS VALORES DA TELA DO USUAIRO
     lateinit var cpEmailUser: EditText
     lateinit var cpPassworUser: EditText
     lateinit var cpPassworUser2: EditText
@@ -26,26 +26,22 @@ class UserCadastro : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var btCadastrarUser: Button
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_cadastro)
 
-        //PEGANDO OS CAMPOS DA VIEW DO USUARIO E SETANDO AS MESMAS NA VARIAVEL
         cpEmailUser = findViewById(R.id.cpEmailUser)
         cpPassworUser = findViewById(R.id.cpPasswordUser)
         cpPassworUser2 = findViewById(R.id.cpPasswordUser2)
         cpPlacaVan = findViewById(R.id.cpPlacaVan)
         btCadastrarUser = findViewById(R.id.btCadastrarUser)
 
-        //INSTANCIA DO FIREBASE
         database = FirebaseDatabase.getInstance()
-        //AUTORIZACAO PARA ENTRADA DE USUARIOS
+
         auth = FirebaseAuth.getInstance()
-        //REFERENMCIA UTILIZADA PARA CRIACAO DE UM USUARIO DENTRO DO ESCOPO DO PROJETO
+
         databaseRef = database.reference.child("Usuario")
 
-        //UM BOTAO
         btCadastrarUser.setOnClickListener() {
             criarNovaConta()
             //salvarUser()
@@ -53,19 +49,24 @@ class UserCadastro : AppCompatActivity() {
 
     }
 
-    //METODO PARA CRIAR UMA NOVA CONTA
+
     private fun criarNovaConta() {
-        //PEGANDO VALORES DE UMA VARIAVEL E TRANSOFRMANDO EM UMA STRING
+
         val cpEmail: String = cpEmailUser.text.toString()
         val cpPassword: String = cpPassworUser.text.toString()
         val cpPassword2: String = cpPassworUser2.text.toString()
         val cpPlaca: String = cpPlacaVan?.text.toString()
 
-        //VENDO SE TEM ALGUM CAMPO VAZIO, SE NÃO TIVER ELE CRIA UM USUARIO COM EMAIL E SENHA
-        if (!cpEmail.isEmpty() && !cpEmail.isEmpty() && !cpPassword2.isEmpty()) {
+        if (cpEmail.isEmpty() || cpEmail.isEmpty() || cpPassword2.isEmpty()) {
+
+            cpEmailUser.error = "O campo está vazio"
+            cpPasswordUser.error = "O campo está vazio"
+            cpPasswordUser2.error = "O campo está vazio"
+
+        }else{
             if (cpPassword.equals(cpPassword2)) {
                 auth.createUserWithEmailAndPassword(cpEmail, cpPassword).addOnCompleteListener(this) { task ->
-                    if (task.isComplete) {
+                    if (task.isSuccessful) {
                         val user: FirebaseUser? = auth.currentUser
                         verificarEmail(user!!)
                         val userDB = databaseRef.child(user.uid)
@@ -78,6 +79,8 @@ class UserCadastro : AppCompatActivity() {
 
             }
         }
+
+
 
     }
 

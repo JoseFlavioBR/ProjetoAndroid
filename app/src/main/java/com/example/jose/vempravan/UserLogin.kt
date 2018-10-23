@@ -3,6 +3,7 @@ package com.example.jose.vempravan
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
@@ -24,6 +25,7 @@ class UserLogin : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_login)
 
+        cbManterConectado = findViewById(R.id.cbManterConectado)
         cpEmail = findViewById(R.id.cpEmail)
         cpPassword = findViewById(R.id.cpPassword)
         btEntrarUser = findViewById(R.id.btEntrarUser)
@@ -39,31 +41,42 @@ class UserLogin : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(user, password).addOnCompleteListener(this){
                     task ->
                     if(task.isSuccessful){
+                        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                        val editor = pref.edit()
+                        if(cbManterConectado.isChecked){
+                            editor.putBoolean("manterConectado", true).apply()
+                        }else{
+                            editor.putBoolean("manterConectado", false).apply()
+                        }
                         SucessoLogin()
                     }else{
-
+                        Toast.makeText(this, "Este usuario não existe", Toast.LENGTH_LONG).show()
                     }
                 }
             }
-
-
-        /*      if(!TextUtils.isEmpty(user) && TextUtils.isEmpty(password)){
-                auth.signInWithEmailAndPassword(user, password).addOnCompleteListener(this){
-                    task ->
-                    if(task.isSuccessful){
-                        SucessoLogin()
-                    }else{
-                        Toast.makeText(this, "Erro de autenticação", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        }*/
 
         }
+
+
 
     }
     private fun SucessoLogin() {
         val intent = Intent(this, UserHome::class.java)
         startActivity(intent)
     }
+
+
+    /*      if(!TextUtils.isEmpty(user) && TextUtils.isEmpty(password)){
+            auth.signInWithEmailAndPassword(user, password).addOnCompleteListener(this){
+                task ->
+                if(task.isSuccessful){
+                    SucessoLogin()
+                }else{
+                    Toast.makeText(this, "Erro de autenticação", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }*/
+
+
 }
